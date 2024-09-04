@@ -1,0 +1,820 @@
+<!-- Place this tag in your head or just before your close body tag. -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+<div class="wrapper">
+  <header class="clear">
+    <ul>
+      <li>lidar</li>
+      <li>ultra sonic</li>
+      <li>design</li>
+      <li>api&streaming</li>
+      <li>production</li>
+      <div id="images" class="images"></div>
+    </ul>
+  </header>
+  <section id="dashboard" class="dashboard clear">
+    <div id="rejected" class="rejected"></div>
+    <div id="pending" class="pending"></div>
+    <div id="development" class="development"></div>
+    <div id="testing" class="testing"></div>
+    <div id="production" class="production"></div>
+  </section>
+
+  <footer>
+    <ul>
+      <li class="branding">Scrum <span>Board</span> <sup>Beta</sup></li>
+    </ul>
+
+    <ul class="controls">
+      <li>
+        <a target="_blank" class="twitter-share-button" href="https://twitter.com/intent/tweet?text=Scrum%20Board%2C%20Simple%20Task%20Manager%20App.%20Powered%20by%20JavaScript.%20Checkout%20now%20on%20CodePen%20https%3A%2F%2Fgoo.gl%2FtTkZGO">
+Tweet</a>
+      </li>
+      <li>
+        <a class="github-button" href="https://github.com/i-break-codes/scrum-board" data-icon="octicon-star" data-count-href="/i-break-codes/scrum-board/stargazers" data-count-api="/repos/i-break-codes/scrum-board#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star i-break-codes/scrum-board on GitHub">Star</a>
+      </li>
+      <li>
+        <a class="github-button" href="https://github.com/i-break-codes/scrum-board/archive/master.zip" data-icon="octicon-cloud-download" aria-label="Download i-break-codes/scrum-board on GitHub">Download</a>
+      </li>
+      <li data-tooltip="Drag A Task Here To Delete">
+        <a href="#" class="remove" id="remove">
+          <img src="http://imgh.us/bin_1.svg" alt="">
+        </a>
+      </li>
+      <li data-tooltip="Add Task">
+        <a href="#" id="add-task" class="add-task">
+          <img src="http://imgh.us/plus_13.svg" alt="">
+        </a>
+      </li>
+      <li data-tooltip="Github" class="github-ref">
+        <a href="https://github.com/i-break-codes/scrum-board" target="_blank">
+          <img src="http://imgh.us/github_6.svg" alt="">
+        </a>
+      </li>
+    </ul>
+  </footer>
+</div>
+
+<div id="removed-task-notification" class="removed-task-notification hide"></div>
+
+<div class="modal hide" id="add-task-modal">
+  <div class="modal-wrapper">
+    <form action="index.html" method="post" class="add-task-form" name="add_task">
+      <span class="close-modal">X</span>
+
+      <h3>Add a new Task</h3>
+
+      <ul>
+        <li>
+          <input type="text" name="title" placeholder="Title" autofocus>
+        </li>
+        <li>
+          <textarea name="description" placeholder="Description"></textarea>
+        </li>
+        <li>
+          <input type="text" name="remote_url" placeholder="Remote Task URL">
+        </li>
+        <li>
+          <input type="text" name="assigned_to" placeholder="Assigned To">
+        </li>
+        <li>
+          <input type="submit" name="create_task" value="Create Task">
+        </li>
+      </ul>
+    </form>
+  </div>
+
+  <div class="create-task-branding">
+    Scrum <span>Board</span> <sup>Beta</sup>
+  </div>
+</div>
+
+<div class="hide" id="tips">
+  Double click on the task text to edit it <br> <span>(Task titles are not editable for now)</span>
+</div>
+
+<script id="task-card-template" type="text/x-handlebars-template">
+  {{#each this}}
+  <div class="card" data-task-id="{{id}}">
+    <a href="#" class="expand-card"></a>
+    <h5>{{title}}</h5>
+    <div class="card-details">
+      <p data-field="description">{{description}}</p>
+      <p data-field="remote_url">
+        {{#checkIfEmptyRemoteURL remote_url}}{{/checkIfEmptyRemoteURL}}
+      </p>
+      <p data-field="assigned_to">
+        {{#checkIfEmptyAssigned assigned_to}}{{/checkIfEmptyAssigned}}
+      </p>
+    </div>
+  </div>
+  {{/each}}
+</script>
+<!-- Place this tag in your head or just before your close body tag. -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+<div class="wrapper">
+  <header class="clear">
+    <ul>
+      <li>Rejected</li>
+      <li>Pending</li>
+      <li>Development</li>
+      <li>Testing</li>
+      <li>Production</li>
+    </ul>
+  </header>
+  <section id="dashboard" class="dashboard clear">
+    <div id="rejected" class="rejected"></div>
+    <div id="pending" class="pending"></div>
+    <div id="development" class="development"></div>
+    <div id="testing" class="testing"></div>
+    <div id="production" class="production"></div>
+  </section>
+
+  <footer>
+    <ul>
+      <li class="branding">Scrum <span>Board</span> <sup>Beta</sup></li>
+    </ul>
+
+    <ul class="controls">
+      <li>
+        <a target="_blank" class="twitter-share-button" href="https://twitter.com/intent/tweet?text=Scrum%20Board%2C%20Simple%20Task%20Manager%20App.%20Powered%20by%20JavaScript.%20Checkout%20now%20on%20CodePen%20https%3A%2F%2Fgoo.gl%2FtTkZGO">
+Tweet</a>
+      </li>
+      <li>
+        <a class="github-button" href="https://github.com/i-break-codes/scrum-board" data-icon="octicon-star" data-count-href="/i-break-codes/scrum-board/stargazers" data-count-api="/repos/i-break-codes/scrum-board#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star i-break-codes/scrum-board on GitHub">Star</a>
+      </li>
+      <li>
+        <a class="github-button" href="https://github.com/i-break-codes/scrum-board/archive/master.zip" data-icon="octicon-cloud-download" aria-label="Download i-break-codes/scrum-board on GitHub">Download</a>
+      </li>
+      <li data-tooltip="Drag A Task Here To Delete">
+        <a href="#" class="remove" id="remove">
+          <img src="http://imgh.us/bin_1.svg" alt="">
+        </a>
+      </li>
+      <li data-tooltip="Add Task">
+        <a href="#" id="add-task" class="add-task">
+          <img src="http://imgh.us/plus_13.svg" alt="">
+        </a>
+      </li>
+      <li data-tooltip="Github" class="github-ref">
+        <a href="https://github.com/i-break-codes/scrum-board" target="_blank">
+          <img src="http://imgh.us/github_6.svg" alt="">
+        </a>
+      </li>
+    </ul>
+  </footer>
+</div>
+
+<div id="removed-task-notification" class="removed-task-notification hide"></div>
+
+<div class="modal hide" id="add-task-modal">
+  <div class="modal-wrapper">
+    <form action="index.html" method="post" class="add-task-form" name="add_task">
+      <span class="close-modal">X</span>
+
+      <h3>Add a new Task</h3>
+
+      <ul>
+        <li>
+          <input type="text" name="title" placeholder="Title" autofocus>
+        </li>
+        <li>
+          <textarea name="description" placeholder="Description"></textarea>
+        </li>
+        <li>
+          <input type="text" name="remote_url" placeholder="Remote Task URL">
+        </li>
+        <li>
+          <input type="text" name="assigned_to" placeholder="Assigned To">
+        </li>
+        <li>
+          <input type="submit" name="create_task" value="Create Task">
+        </li>
+      </ul>
+    </form>
+  </div>
+
+  <div class="create-task-branding">
+    Scrum <span>Board</span> <sup>Beta</sup>
+  </div>
+</div>
+
+<div class="hide" id="tips">
+  Double click on the task text to edit it <br> <span>(Task titles are not editable for now)</span>
+</div>
+
+<script id="task-card-template" type="text/x-handlebars-template">
+  {{#each this}}
+  <div class="card" data-task-id="{{id}}">
+    <a href="#" class="expand-card"></a>
+    <h5>{{title}}</h5>
+    <div class="card-details">
+      <p data-field="description">{{description}}</p>
+      <p data-field="remote_url">
+        {{#checkIfEmptyRemoteURL remote_url}}{{/checkIfEmptyRemoteURL}}
+      </p>
+      <p data-field="assigned_to">
+        {{#checkIfEmptyAssigned assigned_to}}{{/checkIfEmptyAssigned}}
+      </p>
+    </div>
+  </div>
+  {{/each}}
+  /**
+ * @category   scrum-board
+ * @author     Vaibhav Mehta <vaibhav@decodingweb.com>
+ * @copyright  Copyright (c) 2016 Vaibhav Mehta <https://github.com/i-break-codes>
+ * @license    https://www.opensource.org/licenses/mit-license.html  MIT License
+ * @version    1.0 Beta
+ */
+
+
+var LocalStorage = function() {
+  function set(key, val) {
+    localStorage.setItem(key, val);
+  }
+  
+  function get(key) {
+    return localStorage.getItem(key);
+  }
+  
+  function remove(key) {
+    localStorage.removeItem(key);
+  }
+  
+  return {
+    set: set,
+    get: get,
+    remove: remove
+  }
+}();
+
+// TODO: Clearup this mess later and find a better way to handle blank fields
+
+var Helper = function() {
+  function init() {
+    checkIfEmptyRemoteURL();
+    checkForEmptyAssign();
+  }
+  
+  function checkIfEmptyRemoteURL() {
+    Handlebars.registerHelper('checkIfEmptyRemoteURL', function(val, options) {
+      if(val) {
+        return '<a href="' + val + '" target="_blank">' + val + '</a>';
+      } else {
+        return '-';
+      }
+    });
+  }
+  
+  function checkForEmptyAssign() {
+    Handlebars.registerHelper('checkIfEmptyAssigned', function(val, options) {
+      if(val) {
+        return val;
+      } else {
+        return '-';
+      }
+    });
+  }
+  
+  return {
+    init: init
+  }
+}();
+
+Helper.init();
+
+var App = function() {
+  function init() {
+    tips();
+    preset();
+    draggable();
+    droppable();
+    openCard();
+    createTask();
+    closeModal();
+    printNotes();
+    editTask();
+    exitEditMode();
+  }
+  
+  function preset() {
+    $('#remove').on('click', function(e) {
+      e.preventDefault();
+    });
+    
+    var defaultTask = {
+      id: 1,
+      title: 'This is a sample task',
+      description: 'Sample tasks are useful to get started',
+      remote_url: 'https://asana.com/12345/1234',
+      assigned_to: 'Jon Doe',
+      status: 'pending'
+    }
+    
+    if(!LocalStorage.get('appInitialized', true)) {
+      LocalStorage.set('taskCounter', 1);
+      LocalStorage.set('task-1', JSON.stringify(defaultTask));
+      LocalStorage.set('appInitialized', true);
+    }
+  }
+  
+  function createTask() {
+    var source = $("#task-card-template").html();
+    var template = Handlebars.compile(source);
+    
+    $('#add-task').on('click', function(e) {
+      e.preventDefault();
+      $('#add-task-modal').removeClass('hide');
+      
+      $('#add-task-modal').find('form').on('submit', function(e) {
+        e.preventDefault();
+        var obj = {};
+        var params = $(this).serialize();
+        var splitParams = params.split('&');
+        
+        for(var i = 0, l = splitParams.length; i < l; i++) {
+          var keyVal = splitParams[i].split('=');
+          obj[keyVal[0]] = unescape(keyVal[1]);
+        }
+
+        // TODO: Add validations
+        if(obj.description === '' || obj.title === '') {
+          return;
+        }
+        
+        var iid = LocalStorage.get('taskCounter');
+        obj.id = ++iid;
+        obj.status = 'pending';
+        LocalStorage.set('task-' + obj.id, JSON.stringify(obj));
+        LocalStorage.set('taskCounter', iid);
+        
+        var newCard = template([obj]);
+        $('#dashboard #' + obj.status).append(newCard);
+        draggable();
+        
+        $('.close-modal').trigger('click');
+        
+        //Clear form fields after submit
+        $(this).find('input[type=text], textarea').val('');
+      });
+      
+    });
+  }
+  
+  function editTask() {
+    $(document).on('dblclick', '.card-details p', function(e) {
+      e.stopPropagation();
+      $(this).attr('contenteditable','true').parents('.card').addClass('edit-mode');
+    });
+    
+    $(document).on('input', '.card p', function() {
+      var taskId = $(this).parents('.card').data('task-id');
+      var fieldToEdit = $(this).data('field');
+      var getTaskData = JSON.parse(LocalStorage.get('task-' + taskId));
+      
+      getTaskData[fieldToEdit] = $(this).text();
+      
+      LocalStorage.set('task-' + taskId, JSON.stringify(getTaskData));
+    });
+  }
+  
+  function exitEditMode() {
+    $(document).on('dblclick', function(e) {
+      $('.card').removeClass('edit-mode').find('[contenteditable]').removeAttr('contenteditable');
+    });
+  }
+  
+  function closeModal() {
+    $('.close-modal').on('click', function() {
+      $('.modal').addClass('hide');
+    })
+  }
+  
+  function draggable() {
+    $('.card').draggable({
+      handle: 'h5',
+      revert: true,
+      cursor: 'move',
+      start: function(event, ui) {
+        
+      },
+      stop: function(event, ui) {
+        
+      }
+    });
+  }
+  
+  function droppable() {
+    var droppableConfig = {
+      tolerance: 'pointer',
+      drop: function(event, ui) {
+        var elm = ui.draggable,
+            parentId = elm.parent().attr('id'),
+            currentId = $(this).attr('id'),
+            taskId = elm.data('task-id');
+        
+        if($(this).attr('id') == 'remove') {
+          //Deletes task
+          elm.remove();
+          LocalStorage.remove('task-' + taskId);
+          $('#removed-task-notification').text('Task removed successfully').removeClass('hide');
+          
+          
+          setTimeout(function() {
+            $('#removed-task-notification').text('').addClass('hide');
+          }, 3000);
+        } else {
+          //Moves task
+          if(parentId != currentId) {
+            $(elm).detach().removeAttr('style').appendTo(this);
+            
+            var getTaskData = JSON.parse(LocalStorage.get('task-' + taskId));
+            getTaskData.status = currentId;
+            
+            LocalStorage.set('task-' + taskId, JSON.stringify(getTaskData));
+          }
+        }
+        
+        $(this).removeClass('dragged-over');
+      },
+      over: function(event, ui) {
+        $(this).addClass('dragged-over');
+      },
+      out: function(event, ui) {
+        $(this).removeClass('dragged-over');
+      }
+    }
+    
+    $('#dashboard > div, #remove').droppable(droppableConfig);
+  }
+  
+  function openCard() {
+    $(document).on('click', '.expand-card', function(e) {
+      $(this).parent().toggleClass('expanded');
+      e.preventDefault();
+    });
+  }
+  
+  function getAllNotes() {
+    var getAllData = localStorage;
+    var getTasks = [];
+    
+    for(var data in getAllData) {
+      if(data.split('-')[0] == 'task') {
+        getTasks.push(JSON.parse(localStorage[data]));
+      }
+    }
+    
+    return getTasks;
+  }
+  
+  function printNotes() {
+    var source = $("#task-card-template").html();
+    var template = Handlebars.compile(source);
+    
+    var status = ['rejected', 'pending', 'development', 'testing', 'production'];
+    
+    for(var i = 0, l = status.length; i < l; i++) {
+      var result = App.getAllNotes().filter(function(obj) {
+        return obj.status == status[i];
+      });
+      
+      if(result) {
+        var cards = template(result);
+        $('#dashboard #' + status[i]).append(cards);
+        draggable();
+      }
+    }
+  }
+  
+  function tips() {
+    if(!JSON.parse(LocalStorage.get('showedTip'))) {
+      $('#tips').removeClass('hide').addClass('tips');
+    }
+    
+    $('#tips').on('click', function() {
+      $(this).addClass('hide');
+      LocalStorage.set('showedTip', true);
+    });
+  }
+  
+  return {
+    init: init,
+    getAllNotes: getAllNotes
+  }
+}();
+
+App.init();
+</script>
+<style>@import 'https://fonts.googleapis.com/css?family=Hind+Vadodara:300,400';
+    @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400');
+    
+    // Colors
+    $base-color: rgba(0,0,0,.4);
+    $primary-color: #fff;
+    $secondary-color: rgba(255,255,255,.1);
+    
+    $grad-start: #000428;
+    $grad-end: #004e92;
+    
+    * {
+      margin: 0;
+      padding: 0;
+      outline: 0;
+      box-sizing: border-box;
+    }
+    
+    html, body, .wrapper {
+      height: 100%;
+    }
+    
+    body {
+      font-weight: 300;
+      font-family: Hind Vadodara;
+      background-image: linear-gradient(to left, $grad-start, $grad-end);
+      color: $primary-color;
+      font-size: 14px;
+    }
+    
+    ul {
+      list-style-type: none;
+    }
+    
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    
+    .clear {
+      &:after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+    }
+    
+    .hide {
+      display: none !important;
+    }
+    
+    header {
+      background-color: $base-color;
+      
+      li {
+        padding: 15px;
+        float: left;
+        width: 20%;
+        text-align: center;
+        position: relative;
+        text-transform: uppercase;
+        
+        &:after {
+          content: "";
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          width: 100%;
+          height: 1px;
+        }
+        
+        &:nth-child(1) {
+          &:after {
+            background: linear-gradient(to left, #cb2d3e , #ef473a);
+          }
+        }
+        
+        &:nth-child(2) {
+          &:after {
+            background: linear-gradient(to left, #ffb347 , #ffcc33);
+          }
+        }
+        
+        &:nth-child(3) {
+          &:after {
+            background: linear-gradient(to left, #56ab2f , #a8e063);
+          }
+        }
+        
+        &:nth-child(4) {
+          &:after {
+            background: linear-gradient(to left, #00d2ff , #3a7bd5);
+          }
+        }
+        
+        &:nth-child(5) {
+          &:after {
+            background: linear-gradient(to left, #4CB8C4 , #3CD3AD);
+          }
+        }
+      }
+    }
+    
+    .wrapper {
+      overflow: hidden;
+    }
+    
+    // Dashboard
+    .dashboard {
+      height: calc(100% - 101px);
+    
+      > div {
+        float: left;
+        height: 100%;
+        border-right: 1px solid $base-color;
+        width: 20%;
+      }
+    }
+    
+    // Cards
+    .card {
+      background-color: $base-color;
+      min-height: 50px;
+      margin: 10px;
+      position: relative;
+      overflow: hidden;
+      height: 40px;
+      box-shadow: 3px 3px 3px rgba(0,0,0,.1);
+      z-index: 2;
+      
+      &:before {
+        content: "";
+        position: absolute;
+        height: 100%;
+        width: 1px;
+      }
+      
+      p:before,
+      h5:after {
+        .rejected & {
+          color: #ef473a;
+        }
+        
+        .pending & {
+          color: #ffcc33;
+        }
+        
+        .development & {
+          color: #a8e063;
+        }
+        
+        .testing & {
+          color: #3a7bd5;
+        }
+        
+        .production & {
+          color: #3CD3AD;
+        }
+      }
+      
+      h5 {
+        margin: 10px;
+        text-transform: uppercase;
+        font-size: 1rem;
+      }
+      
+      .card-details {
+        margin: 10px;
+        
+        p {
+          font-size: 12px;
+          color: $base-color;
+        }
+      }
+    }
+    
+    // Modals
+    .modal {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      max-width: 500px;
+      width: 90%;
+      background-color: $base-color;
+      box-shadow: 0 0 20px rgba(0,0,0,.2);
+      z-index: 10000;
+      padding: 30px 20px;
+      border-radius: 5px;
+      
+      .close-modal {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      
+      form {
+        ul {
+          li {
+            margin-bottom: 15px;
+            
+            input[type=text],
+            textarea {
+              width: 100%;
+              border: 1px solid $base-color;
+              border-radius: 5px;
+              padding: 10px;
+            }
+            
+            input[type=submit] {
+              background: linear-gradient(to right, #56ab2f, #a8e063);
+              border: none;
+              color: $primary-color;
+              padding: 10px;
+              border-radius: 5px;
+              font-weight: bold;
+              cursor: pointer;
+              
+              &:hover {
+                background: linear-gradient(to right, #a8e063, #56ab2f);
+              }
+            }
+          }
+        }
+      }
+      
+      .create-task-branding {
+        text-align: center;
+        margin-top: 20px;
+      }
+    }
+    
+    // Footer
+    footer {
+      background-color: $base-color;
+      height: 101px;
+      width: 100%;
+      
+      ul {
+        float: left;
+        height: 100%;
+        margin-left: 5%;
+        margin-right: 5%;
+        overflow: hidden;
+        position: relative;
+        
+        li {
+          float: left;
+          height: 100%;
+          width: 20%;
+          text-align: center;
+          padding: 15px 10px;
+          
+          a {
+            display: block;
+            width: 30px;
+            height: 30px;
+            margin: 0 auto;
+            background-size: cover;
+            background-repeat: no-repeat;
+          }
+        }
+      }
+      
+      .branding {
+        font-size: 1.1rem;
+        text-transform: uppercase;
+        
+        sup {
+          font-size: .7rem;
+        }
+        
+        span {
+          color: #a8e063;
+        }
+      }
+      
+      .controls {
+        float: right;
+        margin-top: 15px;
+        
+        li {
+          float: left;
+          margin-left: 5px;
+          
+          a {
+            display: block;
+            width: 30px;
+            height: 30px;
+            background-size: cover;
+            background-repeat: no-repeat;
+          }
+          
+          &.remove a {
+            background-image: url("http://imgh.us/bin_1.svg");
+          }
+          
+          &.add-task a {
+            background-image: url("http://imgh.us/plus_13.svg");
+          }
+          
+          &.github-ref a {
+            background-image: url("http://imgh.us/github_6.svg");
+          }
+        }
+      }
+    }
+    </style>
